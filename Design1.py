@@ -7,10 +7,11 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import OneLineIconListItem,IconLeftWidget
 
 
-
-
+from kivy.animation import Animation
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.scrollview import ScrollView
+from kivy.clock import Clock
+from kivy.uix.image import Image
 
 
 class ImmersiveGaming(MDApp):
@@ -18,33 +19,29 @@ class ImmersiveGaming(MDApp):
     def build(self):
 
     # === Variables === #
-        self.navigation_open=0
+        self.clock=Clock
 
         self.title="Immersive Gaming"
-        self.theme_cls.theme_style="Light"
+        self.theme_cls.theme_style="Dark"
         self.theme_cls.primary_palette="DeepPurple"
 
         self.navigation_layout=MDNavigationLayout()
 
-        # Adding Scroll View
-
+        self.bootlogo=Image(source="img\\boot_logo.png",pos_hint={"center_x":.5,"center_y":.5},size_hint=(.5,.5))
 
     # === Screens and Screen Manager === #
         self.screenmanager=ScreenManager()
 
+        self.splashscreen=MDScreen(name="SplashScreen")
         self.homescreen=MDScreen(name="HomeScreen")
         self.gamescreen=MDScreen(name="GameScreen")
         self.serverscreen=MDScreen(name="ServerScreen")
         self.settingscreen=MDScreen(name="SettingsScreen")
 
-
-        # === Home Screen Content === #
-        # self.homescreen.add_widget(self.toolbar)
-        # === Game Screen Content === #
-        # === Server Screen Content === #
-        # === Settings Screen Content === #
+        self.splashscreen.add_widget(self.bootlogo)
 
         # === Adding Screens to Screen Manager === #
+        self.screenmanager.add_widget(self.splashscreen)
         self.screenmanager.add_widget(self.homescreen)
         self.screenmanager.add_widget(self.gamescreen)
         self.screenmanager.add_widget(self.serverscreen)
@@ -57,9 +54,23 @@ class ImmersiveGaming(MDApp):
 
 
     # === ToolBar === #
-        self.toolbar=MDToolbar(title="Home",pos_hint={"top":1})
-        self.toolbar.left_action_items=[['menu',self.open_navigation_drawer]]
-        self.navigation_layout.add_widget(self.toolbar)
+        self.hometoolbar=MDToolbar(title="Home",pos_hint={"top":1})
+        self.hometoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.gametoolbar=MDToolbar(title="Games",pos_hint={"top":1})
+        self.gametoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.servertoolbar=MDToolbar(title="Server",pos_hint={"top":1})
+        self.servertoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.settingstoolbar=MDToolbar(title="Settings",pos_hint={"top":1})
+        self.settingstoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        # self.navigation_layout.add_widget(self.toolbar)
+        # === Home Screen Content === #
+        self.homescreen.add_widget(self.hometoolbar)
+        # === Game Screen Content === #
+        self.gamescreen.add_widget(self.gametoolbar)
+        # === Server Screen Content === #
+        self.serverscreen.add_widget(self.servertoolbar)
+        # === Settings Screen Content === #
+        self.settingscreen.add_widget(self.settingstoolbar)
 
     # === Navigation Pannel === #
 
@@ -96,30 +107,30 @@ class ImmersiveGaming(MDApp):
         self.settings_tab.add_widget(self.settings_icon)
         self.navigation_boxlayout.add_widget(self.settings_tab)
 
+        self.clock.schedule_once(self.stop_splash,timeout=5)
+
         return self.navigation_layout
 
-        
+    def stop_splash(self,*args):
+        self.screenmanager.current="HomeScreen"
+
     def open_navigation_drawer(self,*args):
         self.navigation_bar.set_state("open")
 
     def goto_homescreen(self,*args):
         self.screenmanager.current="HomeScreen"
-        self.toolbar.title="Home"
         self.navigation_bar.set_state("close")
 
     def goto_gamescreen(self,*args):
         self.screenmanager.current="GameScreen"
-        self.toolbar.title="Games"
         self.navigation_bar.set_state("close")
 
     def goto_serverscreen(self,*args):
         self.screenmanager.current="ServerScreen"
-        self.toolbar.title="Servers"
         self.navigation_bar.set_state("close")
 
     def goto_settingscreen(self,*args):
         self.screenmanager.current="SettingsScreen"
-        self.toolbar.title="Settings"
         self.navigation_bar.set_state("close")
 
         
