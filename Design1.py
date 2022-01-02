@@ -20,6 +20,7 @@ class ImmersiveGaming(MDApp):
 
     # === Variables === #
         self.clock=Clock
+        self.loggedin=False
 
         self.title="Immersive Gaming"
         self.theme_cls.theme_style="Dark"
@@ -38,6 +39,9 @@ class ImmersiveGaming(MDApp):
         self.serverscreen=MDScreen(name="ServerScreen")
         self.settingscreen=MDScreen(name="SettingsScreen")
 
+        self.loginscreen=MDScreen(name="LoginScreen")
+        self.accountscreen=MDScreen(name="AccountScreen")
+
         self.splashscreen.add_widget(self.bootlogo)
 
         # === Adding Screens to Screen Manager === #
@@ -46,6 +50,8 @@ class ImmersiveGaming(MDApp):
         self.screenmanager.add_widget(self.gamescreen)
         self.screenmanager.add_widget(self.serverscreen)
         self.screenmanager.add_widget(self.settingscreen)
+        self.screenmanager.add_widget(self.loginscreen)
+        self.screenmanager.add_widget(self.accountscreen)
 
         self.navigation_layout.add_widget(self.screenmanager)
 
@@ -56,21 +62,39 @@ class ImmersiveGaming(MDApp):
     # === ToolBar === #
         self.hometoolbar=MDToolbar(title="Home",pos_hint={"top":1})
         self.hometoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.hometoolbar.right_action_items=[["account",self.goto_account_or_login]]
+
         self.gametoolbar=MDToolbar(title="Games",pos_hint={"top":1})
         self.gametoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.gametoolbar.right_action_items=[['account',self.goto_account_or_login]]
+
+
         self.servertoolbar=MDToolbar(title="Server",pos_hint={"top":1})
         self.servertoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
+        self.servertoolbar.right_action_items=[['account',self.goto_account_or_login]]
+
+
         self.settingstoolbar=MDToolbar(title="Settings",pos_hint={"top":1})
         self.settingstoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
-        # self.navigation_layout.add_widget(self.toolbar)
+
+        self.logintoolbar=MDToolbar(title="Login",pos_hint={"top":1})
+        self.logintoolbar.left_action_items=[["chevron-left",lambda x:print("back")]]
+
         # === Home Screen Content === #
         self.homescreen.add_widget(self.hometoolbar)
+
         # === Game Screen Content === #
         self.gamescreen.add_widget(self.gametoolbar)
+
         # === Server Screen Content === #
         self.serverscreen.add_widget(self.servertoolbar)
+
         # === Settings Screen Content === #
         self.settingscreen.add_widget(self.settingstoolbar)
+
+        # === Login Screen Content === #
+        self.loginscreen.add_widget(self.logintoolbar)
+
 
     # === Navigation Pannel === #
 
@@ -82,6 +106,9 @@ class ImmersiveGaming(MDApp):
 
         self.scrollview=ScrollView()
         self.navigation_bar.add_widget(self.scrollview)
+
+        self.pagename_label=MDLabel(font_style="H5",halign="center")
+        self.navigation_boxlayout.add_widget(self.pagename_label)
 
         self.home_icon=IconLeftWidget(icon="home",on_release=self.goto_homescreen)
         self.home_tab=OneLineIconListItem(text="Home",text_color=self.theme_cls.primary_color,on_release=self.goto_homescreen)
@@ -113,26 +140,38 @@ class ImmersiveGaming(MDApp):
 
     def stop_splash(self,*args):
         self.screenmanager.current="HomeScreen"
+        self.pagename_label.text="Home"
 
     def open_navigation_drawer(self,*args):
         self.navigation_bar.set_state("open")
 
     def goto_homescreen(self,*args):
         self.screenmanager.current="HomeScreen"
+        self.pagename_label.text="Home"
         self.navigation_bar.set_state("close")
 
     def goto_gamescreen(self,*args):
         self.screenmanager.current="GameScreen"
+        self.pagename_label.text="Games"
         self.navigation_bar.set_state("close")
 
     def goto_serverscreen(self,*args):
         self.screenmanager.current="ServerScreen"
+        self.pagename_label.text="Servers"
         self.navigation_bar.set_state("close")
 
     def goto_settingscreen(self,*args):
         self.screenmanager.current="SettingsScreen"
+        self.pagename_label.text="Settings"
         self.navigation_bar.set_state("close")
 
+    def goto_account_or_login(self,*args):
+        if self.loggedin==False:
+            self.screenmanager.current="LoginScreen"
+            self.loggedin=True
+
+        else:
+            self.screenmanager.current="AccountScreen"
         
         
 
