@@ -8,6 +8,7 @@ from kivymd.uix.list import OneLineIconListItem,IconLeftWidget
 
 
 from kivy.animation import Animation
+from kivy.graphics import Ellipse
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.scrollview import ScrollView
 from kivy.clock import Clock
@@ -22,6 +23,7 @@ class ImmersiveGaming(MDApp):
         self.clock=Clock
         self.loggedin=False
 
+    # === Window and App Configuration === #
         self.title="Immersive Gaming"
         self.theme_cls.theme_style="Dark"
         self.theme_cls.primary_palette="DeepPurple"
@@ -54,10 +56,6 @@ class ImmersiveGaming(MDApp):
         self.screenmanager.add_widget(self.accountscreen)
 
         self.navigation_layout.add_widget(self.screenmanager)
-
-
-
-
 
     # === ToolBar === #
         self.hometoolbar=MDToolbar(title="Home",pos_hint={"top":1})
@@ -134,37 +132,46 @@ class ImmersiveGaming(MDApp):
         self.settings_tab.add_widget(self.settings_icon)
         self.navigation_boxlayout.add_widget(self.settings_tab)
 
+    # === Return Screen and Clock for Boot Screen Transition === #
+
         self.clock.schedule_once(self.stop_splash,timeout=5)
 
         return self.navigation_layout
 
+    # Used to trnsition from spash screen to Home Screen
     def stop_splash(self,*args):
         self.screenmanager.current="HomeScreen"
         self.pagename_label.text="Home"
 
+    # Used to open Navigation Bar when the menu is click or it is dragged
     def open_navigation_drawer(self,*args):
         self.navigation_bar.set_state("open")
 
+    # A Function that is used to goto home screen from the navigation bar
     def goto_homescreen(self,*args):
         self.screenmanager.current="HomeScreen"
         self.pagename_label.text="Home"
         self.navigation_bar.set_state("close")
 
+    # A Function that is used to goto game screen from the navigation bar
     def goto_gamescreen(self,*args):
         self.screenmanager.current="GameScreen"
         self.pagename_label.text="Games"
         self.navigation_bar.set_state("close")
 
+   # A Function that is used to goto server screen from the navigation bar    
     def goto_serverscreen(self,*args):
         self.screenmanager.current="ServerScreen"
         self.pagename_label.text="Servers"
         self.navigation_bar.set_state("close")
 
+    # A Function that is used to goto home screen from the navigation bar
     def goto_settingscreen(self,*args):
         self.screenmanager.current="SettingsScreen"
         self.pagename_label.text="Settings"
         self.navigation_bar.set_state("close")
 
+    # A Function that is used to goto account screen or login screen if user is not logged in
     def goto_account_or_login(self,*args):
         if self.loggedin==False:
             self.screenmanager.current="LoginScreen"
@@ -174,8 +181,6 @@ class ImmersiveGaming(MDApp):
             self.screenmanager.current="AccountScreen"
         
         
-
-
 
 if __name__ == "__main__":
     app=ImmersiveGaming()
