@@ -25,7 +25,7 @@ class ImmersiveGaming(MDApp):
 
     # === Window and App Configuration === #
         self.title="Immersive Gaming"
-        self.theme_cls.theme_style="Dark"
+        self.theme_cls.theme_style="Light"
         self.theme_cls.primary_palette="DeepPurple"
 
         self.navigation_layout=MDNavigationLayout()
@@ -64,7 +64,7 @@ class ImmersiveGaming(MDApp):
 
         self.gametoolbar=MDToolbar(title="Games",pos_hint={"top":1})
         self.gametoolbar.left_action_items=[['menu',self.open_navigation_drawer]]
-        self.gametoolbar.right_action_items=[['account',self.goto_account_or_login]]
+        self.gametoolbar.right_action_items=[['account',self.goto_account_or_login],['filter',self.open_game_genre]]
 
 
         self.servertoolbar=MDToolbar(title="Server",pos_hint={"top":1})
@@ -132,6 +132,21 @@ class ImmersiveGaming(MDApp):
         self.settings_tab.add_widget(self.settings_icon)
         self.navigation_boxlayout.add_widget(self.settings_tab)
 
+    # === Game Genre Panel === #
+
+        self.gamegenre_bar=MDNavigationDrawer(orientation="vertical")
+
+        self.gamegenre_boxlayout=MDBoxLayout(spacing='8dp',padding='8dp',orientation='vertical')
+        self.gamegenre_bar.add_widget(self.gamegenre_boxlayout)
+
+        self.gamebarscrollview=ScrollView()
+        self.gamegenre_bar.add_widget(self.gamebarscrollview)
+
+        self.genre_label=MDLabel(text="Genre and Categories",font_style="H5",halign="center")
+        self.gamegenre_boxlayout.add_widget(self.genre_label)
+
+        self.navigation_layout.add_widget(self.gamegenre_bar)
+
     # === Return Screen and Clock for Boot Screen Transition === #
 
         self.clock.schedule_once(self.stop_splash,timeout=5)
@@ -179,6 +194,10 @@ class ImmersiveGaming(MDApp):
 
         else:
             self.screenmanager.current="AccountScreen"
+
+    # A Function that opens the games genre
+    def open_game_genre(self,*args):
+        self.gamegenre_bar.set_state("open")
         
         
 
