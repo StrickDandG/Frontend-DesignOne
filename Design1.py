@@ -7,7 +7,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import OneLineIconListItem,IconLeftWidget
 from kivymd.uix.card import MDCard
 from kivymd.uix.textfield import MDTextFieldRect
-from kivymd.uix.button import MDFillRoundFlatButton,MDIconButton
+from kivymd.uix.button import MDFillRoundFlatButton,MDRoundFlatIconButton
 
 
 from kivy.animation import Animation
@@ -147,11 +147,11 @@ class ImmersiveGaming(MDApp):
         self.navigation_layout.add_widget(self.gamegenre_bar)
 
     # === Login Card === #
-        self.login_card=MDCard(elevation=20,size_hint=(None,None),size=(500,400),pos_hint={"center_x":0.5,"center_y":0.5})
+        self.login_card=MDCard(elevation=20,size_hint=(None,None),size=(500,550),pos_hint={"center_x":0.5,"center_y":0.4})
 
         self.login_boxlayout=MDBoxLayout(orientation="vertical",spacing=20,padding=20)
 
-        self.login_label=MDLabel(text="Login",font_style="H2",halign="center",pos_hint={"center_x":0.5},size_hint=(0.5,0.2))
+        self.login_label=MDLabel(text="Login",font_style="H2",halign="center",pos_hint={"center_x":0.5},size_hint=(0.5,0.2),font_size=15)
         self.login_boxlayout.add_widget(self.login_label)
 
         self.username_textfield=MDTextFieldRect(hint_text="Enter Your Username",size_hint=(0.8,None),pos_hint={"center_x":0.5},font_size=20)
@@ -160,26 +160,21 @@ class ImmersiveGaming(MDApp):
         self.password_textfield=MDTextFieldRect(hint_text="Enter Your Password",size_hint=(0.8,None),pos_hint={"center_x":0.5},font_size=20,password=True)
         self.login_boxlayout.add_widget(self.password_textfield)
 
-        self.login_buttons_boxlayout=MDBoxLayout(orienation='vertical')
+        self.login_buttons_boxlayout=MDBoxLayout(orientation='vertical',spacing=10,padding=10)
 
         self.login_button=MDFillRoundFlatButton(text="Login",size_hint=(0.6,None),pos_hint={"center_x":0.5})
         self.login_buttons_boxlayout.add_widget(self.login_button)
 
-        self.login_from_boxlayout=MDBoxLayout(orientation="horizontal")
-        self.login_buttons_boxlayout.add_widget(self.login_from_boxlayout)
+        self.google_login=MDRoundFlatIconButton(icon="google",text="Login from Google",pos_hint={"center_x":0.5})
+        self.login_buttons_boxlayout.add_widget(self.google_login)
 
-        '''
-            FIXME:
-                1. Google Login
+        self.instagram_login=MDRoundFlatIconButton(icon="instagram",text="Login from Instagram",pos_hint={"center_x":0.5})
+        self.login_buttons_boxlayout.add_widget(self.instagram_login)
 
-            TODO:
-                1. Add Instagram Login
-                2. Add Facebook Login
+        self.facebook_login=MDRoundFlatIconButton(icon="facebook",text="Login from Faccebook",pos_hint={"center_x":0.5})
+        self.login_buttons_boxlayout.add_widget(self.facebook_login)
 
-        '''
-
-        self.google_login=MDIconButton(icon="google")
-        self.login_from_boxlayout.add_widget(self.google_login)
+        self.login_boxlayout.add_widget(self.login_buttons_boxlayout)
 
         self.login_card.add_widget(self.login_boxlayout)
         
@@ -210,14 +205,17 @@ class ImmersiveGaming(MDApp):
 
         return self.navigation_layout
 
+
     # Used to trnsition from spash screen to Home Screen
     def stop_splash(self,*args):
         self.screenmanager.current="HomeScreen"
         self.pagename_label.text="Home"
 
+
     # Used to open Navigation Bar when the menu is click or it is dragged
     def open_navigation_drawer(self,*args):
         self.navigation_bar.set_state("open")
+
 
     # A Function that is used to goto home screen from the navigation bar
     def goto_homescreen(self,*args):
@@ -226,12 +224,14 @@ class ImmersiveGaming(MDApp):
         self.pagename_label.text="Home"
         self.navigation_bar.set_state("close")
 
+
     # A Function that is used to goto game screen from the navigation bar
     def goto_gamescreen(self,*args):
         self.screenmanager.current="GameScreen"
         self.screenmanager.transition.direction="left"
         self.pagename_label.text="Games"
         self.navigation_bar.set_state("close")
+
 
    # A Function that is used to goto server screen from the navigation bar    
     def goto_serverscreen(self,*args):
@@ -240,12 +240,14 @@ class ImmersiveGaming(MDApp):
         self.pagename_label.text="Servers"
         self.navigation_bar.set_state("close")
 
+
     # A Function that is used to goto home screen from the navigation bar
     def goto_settingscreen(self,*args):
         self.screenmanager.current="SettingsScreen"
         self.screenmanager.transition.direction="left"
         self.pagename_label.text="Settings"
         self.navigation_bar.set_state("close")
+
 
     # A Function that is used to goto account screen or login screen if user is not logged in
     def goto_account_or_login(self,*args):
@@ -258,10 +260,13 @@ class ImmersiveGaming(MDApp):
             self.screenmanager.current="AccountScreen"
             self.screenmanager.transition.direction="left"
 
+
     # A Function that opens the games genre
     def open_game_genre(self,*args):
         self.gamegenre_bar.set_state("open")
 
+    
+    # A Function that is used to transition from account screen to home screen.
     def account_to_homescreen(self,*args):
         self.screenmanager.current="HomeScreen"
         self.screenmanager.transition.direction="right"
