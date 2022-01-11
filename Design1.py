@@ -36,7 +36,7 @@ class ImmersiveGaming(MDApp):
 
     # === Window and App Configuration === #
         self.title="Immersive Gaming"
-        self.theme_cls.theme_style="Dark"
+        self.theme_cls.theme_style="Light"
         self.theme_cls.primary_palette="DeepPurple"
 
         self.navigation_layout=MDNavigationLayout()
@@ -147,17 +147,17 @@ class ImmersiveGaming(MDApp):
         self.navigation_layout.add_widget(self.gamegenre_bar)
 
     # === Login Card === #
-        self.login_card=MDCard(elevation=20,size_hint=(None,None),size=(500,550),pos_hint={"center_x":0.5,"center_y":0.4})
+        self.login_card=MDCard(elevation=20,size_hint=(None,None),size=(500,500),pos_hint={"center_x":0.5,"center_y":0.45})
 
-        self.login_boxlayout=MDBoxLayout(orientation="vertical",spacing=20,padding=20)
+        self.login_boxlayout=MDBoxLayout(orientation="vertical",spacing=10,padding=10)
 
-        self.login_label=MDLabel(text="Login",font_style="H2",halign="center",pos_hint={"center_x":0.5},size_hint=(0.5,0.2),font_size=15)
+        self.login_label=MDLabel(text="Login",font_style="H2",halign="center",pos_hint={"center_x":0.5},font_size=15)
         self.login_boxlayout.add_widget(self.login_label)
 
-        self.username_textfield=MDTextFieldRect(hint_text="Enter Your Username",size_hint=(0.8,None),pos_hint={"center_x":0.5},font_size=20)
+        self.username_textfield=MDTextFieldRect(hint_text="Enter Your Username",size_hint=(0.8,0.2),pos_hint={"center_x":0.5},font_size=20)
         self.login_boxlayout.add_widget(self.username_textfield)
 
-        self.password_textfield=MDTextFieldRect(hint_text="Enter Your Password",size_hint=(0.8,None),pos_hint={"center_x":0.5},font_size=20,password=True)
+        self.password_textfield=MDTextFieldRect(hint_text="Enter Your Password",size_hint=(0.8,0.2),pos_hint={"center_x":0.5},font_size=20,password=True)
         self.login_boxlayout.add_widget(self.password_textfield)
 
         self.login_buttons_boxlayout=MDBoxLayout(orientation='vertical',spacing=10,padding=10)
@@ -165,14 +165,11 @@ class ImmersiveGaming(MDApp):
         self.login_button=MDFillRoundFlatButton(text="Login",size_hint=(0.6,None),pos_hint={"center_x":0.5})
         self.login_buttons_boxlayout.add_widget(self.login_button)
 
-        self.google_login=MDRoundFlatIconButton(icon="google",text="Login from Google",pos_hint={"center_x":0.5})
-        self.login_buttons_boxlayout.add_widget(self.google_login)
+        self.singup_button=MDFillRoundFlatButton(text="Sign Up",size_hint=(0.6,None),pos_hint={"center_x":0.5})
+        self.login_buttons_boxlayout.add_widget(self.singup_button)
 
-        self.instagram_login=MDRoundFlatIconButton(icon="instagram",text="Login from Instagram",pos_hint={"center_x":0.5})
-        self.login_buttons_boxlayout.add_widget(self.instagram_login)
-
-        self.facebook_login=MDRoundFlatIconButton(icon="facebook",text="Login from Faccebook",pos_hint={"center_x":0.5})
-        self.login_buttons_boxlayout.add_widget(self.facebook_login)
+        self.clear_button=MDFillRoundFlatButton(text="Clear",size_hint=(0.6,None),pos_hint={"center_x":0.5})
+        self.login_buttons_boxlayout.add_widget(self.clear_button)
 
         self.login_boxlayout.add_widget(self.login_buttons_boxlayout)
 
@@ -206,7 +203,7 @@ class ImmersiveGaming(MDApp):
         return self.navigation_layout
 
 
-    # Used to trnsition from spash screen to Home Screen
+    # Used to transition from spash screen to Home Screen
     def stop_splash(self,*args):
         self.screenmanager.current="HomeScreen"
         self.pagename_label.text="Home"
